@@ -7,17 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderConf {
-    public final String id;
-    private final List<String> contents;
+    private final List<String> imports;
 
     @JsonCreator
-    private OrderConf(@JsonProperty("id") String id,
-                      @JsonProperty("contents") List<String> contents) {
-        this.id = id;
-        this.contents = contents;
+    private OrderConf(@JsonProperty("imports") List<String> imports) {
+        this.imports = imports;
     }
 
-    public List<String> getContents() {
-        return new ArrayList<>(contents);
+    public List<String> getImports() {
+        return new ArrayList<>(imports);
     }
 }
