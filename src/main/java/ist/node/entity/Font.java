@@ -1,23 +1,15 @@
-package ist.node;
+package ist.node.entity;
 
 import com.wps.api.tree.wps.WdColorIndex;
 
 public final class Font {
-    private final String id;
     private String fontFamily = "Arial";
     private boolean bold = false;
     private boolean italic = false;
     private float size = 10.5f;
     private float spacing = 0f;
+    //FIXME 使用字符串设置文字前景色
     private WdColorIndex textColor = WdColorIndex.wdAuto;
-
-    public Font(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
-        return id;
-    }
 
     public String getFontFamily() {
         return fontFamily;
