@@ -31,20 +31,20 @@ public class AssemblyLineTest {
 
     @Test
     public void constructModuleConfTest() {
-        ModuleConf moduleConf = assemblyLine.constructTConf("\\adir\\module.yaml", ModuleConf.class);
+        ModuleConf moduleConf = assemblyLine.constructTConf("adir\\module.yaml", ModuleConf.class);
         assertEquals(moduleConf.id, "module-a");
         assertEquals(moduleConf.getStyles().size(), 2);
     }
 
     @Test
     public void constructOrderConfTest() {
-        OrderConf orderConf = assemblyLine.constructTConf("\\order.yaml", OrderConf.class);
+        OrderConf orderConf = assemblyLine.constructTConf("order.yaml", OrderConf.class);
         assertEquals(orderConf.getImports().size(), 1);
     }
 
     @Test
     public void constructContentConfTest() {
-        ContentConf contentConf = assemblyLine.constructTConf("\\adir\\content.yaml", ContentConf.class);
+        ContentConf contentConf = assemblyLine.constructTConf("adir\\content.yaml", ContentConf.class);
         assertEquals(contentConf.id, "content-a");
         assertEquals(contentConf.shortContent, "foo, bar, baz");
         assertEquals(contentConf.getStyles().size(), 2);
@@ -53,7 +53,7 @@ public class AssemblyLineTest {
 
     @Test
     public void constructStyleConfTest() {
-        StyleConf styleConf = assemblyLine.constructTConf("\\adir\\style1.yaml", StyleConf.class);
+        StyleConf styleConf = assemblyLine.constructTConf("adir\\style1.yaml", StyleConf.class);
         assertEquals(styleConf.getStyles().get(0).id, "style1-1");
         assertFalse(styleConf.getStyles().get(0).getFontStyles().isItalic());
         assertEquals(styleConf.getStyles().get(0).getParagraphStyles().getInnerAlignment()
