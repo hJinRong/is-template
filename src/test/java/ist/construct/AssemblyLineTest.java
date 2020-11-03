@@ -33,7 +33,7 @@ public class AssemblyLineTest {
     public void constructModuleConfTest() {
         ModuleConf moduleConf = assemblyLine.constructTConf("adir\\module.yaml", ModuleConf.class);
         assertEquals(moduleConf.id, "module-a");
-        assertEquals(moduleConf.getStyles().size(), 2);
+        assertEquals(moduleConf.getStyles().size(), 1);
     }
 
     @Test
@@ -59,5 +59,6 @@ public class AssemblyLineTest {
         assertEquals(styleConf.getStyles().get(0).getParagraphStyles().getInnerAlignment()
                 , WdParagraphAlignment.wdAlignParagraphCenter);
         assertTrue(styleConf.getStyles().get(1).getFontStyles().isItalic());
+        assertNull(styleConf.getStyles().get(1).getParagraphStyles());
     }
 }
