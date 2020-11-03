@@ -26,17 +26,21 @@ public class StyleItem {
     }
 
     public void mergeStyles(StyleItem merged) {
-        this.fontStyles.setFontFamily(merged.fontStyles.getFontFamily());
-        this.fontStyles.setBold(merged.fontStyles.isBold());
-        this.fontStyles.setItalic(merged.fontStyles.isItalic());
-        this.fontStyles.setSize(merged.fontStyles.getSize());
-        this.fontStyles.setSpacing(merged.fontStyles.getSpacing());
-        this.fontStyles.setTextColor(merged.fontStyles.getTextColor());
+        if (merged.getFontStyles() != null) {
+            this.fontStyles.setFontFamily(merged.fontStyles.getFontFamily());
+            this.fontStyles.setBold(merged.fontStyles.isBold());
+            this.fontStyles.setItalic(merged.fontStyles.isItalic());
+            this.fontStyles.setSize(merged.fontStyles.getSize());
+            this.fontStyles.setSpacing(merged.fontStyles.getSpacing());
+            this.fontStyles.setTextColor(merged.fontStyles.getTextColor());
+        }
 
-        this.paragraphStyles.setAlignment(merged.paragraphStyles.getAlignment());
-        this.paragraphStyles.setTextIntent(merged.paragraphStyles.getTextIntent());
-        this.paragraphStyles.setLineSpacing(merged.paragraphStyles.getLineSpacing());
-        this.paragraphStyles.setLineUnitBefore(merged.paragraphStyles.getLineUnitBefore());
-        this.paragraphStyles.setLineUnitAfter(merged.paragraphStyles.getLineUnitAfter());
+        if (merged.getParagraphStyles() != null) {
+            this.paragraphStyles.setAlignment(merged.paragraphStyles.getAlignment());
+            this.paragraphStyles.setTextIntent(merged.paragraphStyles.getTextIntent());
+            this.paragraphStyles.setLineSpacing(merged.paragraphStyles.getLineSpacing());
+            this.paragraphStyles.setLineUnitBefore(merged.paragraphStyles.getLineUnitBefore());
+            this.paragraphStyles.setLineUnitAfter(merged.paragraphStyles.getLineUnitAfter());
+        }
     }
 }
