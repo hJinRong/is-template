@@ -21,12 +21,15 @@ public class UpdateHelper {
         currentActiveDoc().get_Paragraphs().Item(count).get_Range().InsertParagraphAfter();
     }
 
-    public static void supplement(String content) {
+    public static Range supplement(String content, Style style) {
         int count = currentActiveDoc().get_Paragraphs().get_Count();
-        currentActiveDoc().get_Paragraphs().Item(count).get_Range().InsertAfter(content);
+        Range currParag = currentActiveDoc().get_Paragraphs().Item(count).get_Range();
+        currParag.InsertAfter(content);
+        currParag.put_Style(style);
+        return currParag;
     }
 
-    public static int newParagraph(String content) throws NoSuchFieldException, NoSuchFileException {
+    public static void newParagraph(String content, Style paragStyle) throws NoSuchFieldException, NoSuchFileException {
         String[] split = content.split("\r\n");
         for (String s : split) {
             if (s.startsWith("![") && s.endsWith(")")) {
@@ -46,10 +49,9 @@ public class UpdateHelper {
                 insertImage(href, style);
                 continue;
             }
-            supplement(s);
+            supplement(s, paragStyle);
             newLine();
         }
-        return split.length;
     }
 
 

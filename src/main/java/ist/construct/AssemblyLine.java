@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static ist.util.UpdateHelper.addDecoration;
 import static ist.util.UpdateHelper.newParagraph;
 import static ist.util.WpsApplication.currentActiveDoc;
 
@@ -102,12 +101,8 @@ public class AssemblyLine {
 
                 //update document and add style
                 for (String f : files) {
-                    int added;
                     String fc = Files.readString(projRoot.resolve(i).resolve(f));
-                    added = newParagraph(fc);
-                    paraCounter += added;
-                    addDecoration(currentActiveDoc().get_Paragraphs().Item(paraCounter - added).get_Range().get_Start(),
-                            currentActiveDoc().get_Paragraphs().Item(paraCounter - 1).get_Range().get_End(), tmp);
+                    newParagraph(fc, tmp);
                 }
             }
         }
