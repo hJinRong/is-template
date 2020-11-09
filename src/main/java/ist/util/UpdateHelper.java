@@ -16,12 +16,14 @@ import static ist.util.WpsApplication.currentActiveDoc;
 
 public class UpdateHelper {
 
-    public static void newLine(Range range) {
-        range.InsertParagraphAfter();
+    public static void newLine() {
+        int count = currentActiveDoc().get_Paragraphs().get_Count();
+        currentActiveDoc().get_Paragraphs().Item(count).get_Range().InsertParagraphAfter();
     }
 
-    public static void supplement(Range range, String content) {
-        range.InsertAfter(content);
+    public static void supplement(String content) {
+        int count = currentActiveDoc().get_Paragraphs().get_Count();
+        currentActiveDoc().get_Paragraphs().Item(count).get_Range().InsertAfter(content);
     }
 
     public static int newParagraph(Range range, String content) throws NoSuchFieldException, NoSuchFileException {
@@ -44,8 +46,8 @@ public class UpdateHelper {
                 insertImage(href, style);
                 continue;
             }
-            supplement(range, s);
-            newLine(range);
+            supplement(s);
+            newLine();
         }
         return split.length;
     }
@@ -109,7 +111,7 @@ public class UpdateHelper {
                 }
         }
         shapeRange.get_ParagraphFormat().put_Alignment(innerAlignment);
-        if (wrap) newLine(shapeRange);
+        if (wrap) newLine();
         return shape;
     }
 
