@@ -26,7 +26,7 @@ public class UpdateHelper {
         currentActiveDoc().get_Paragraphs().Item(count).get_Range().InsertAfter(content);
     }
 
-    public static int newParagraph(Range range, String content) throws NoSuchFieldException, NoSuchFileException {
+    public static int newParagraph(String content) throws NoSuchFieldException, NoSuchFileException {
         String[] split = content.split("\r\n");
         for (String s : split) {
             if (s.startsWith("![") && s.endsWith(")")) {

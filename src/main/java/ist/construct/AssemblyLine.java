@@ -2,7 +2,6 @@ package ist.construct;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.wps.api.tree.wps.Range;
 import com.wps.api.tree.wps.Style;
 import com.wps.api.tree.wps.WdStyleType;
 import ist.node.conf.ContentConf;
@@ -60,7 +59,6 @@ public class AssemblyLine {
     }
 
     public void start() throws IOException, NoSuchFieldException {
-        Range r = currentActiveDoc().Range(0, 0);
         int paraCounter = 1;
         //read order
         OrderConf orderConf = constructTConf("order.yaml", OrderConf.class);
@@ -106,7 +104,7 @@ public class AssemblyLine {
                 for (String f : files) {
                     int added;
                     String fc = Files.readString(projRoot.resolve(i).resolve(f));
-                    added = newParagraph(r, fc);
+                    added = newParagraph(fc);
                     paraCounter += added;
                     addDecoration(currentActiveDoc().get_Paragraphs().Item(paraCounter - added).get_Range().get_Start(),
                             currentActiveDoc().get_Paragraphs().Item(paraCounter - 1).get_Range().get_End(), tmp);
