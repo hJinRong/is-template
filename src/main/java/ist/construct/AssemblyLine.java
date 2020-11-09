@@ -59,7 +59,7 @@ public class AssemblyLine {
         return tConf;
     }
 
-    public void start() throws IOException {
+    public void start() throws IOException, NoSuchFieldException {
         Range r = currentActiveDoc().Range(0, 0);
         int paraCounter = 1;
         //read order
