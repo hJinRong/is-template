@@ -57,7 +57,7 @@ public class AssemblyLineTest {
         assertEquals(styleConf.getStyles().get(0).id, "style1-1");
         assertFalse(styleConf.getStyles().get(0).getFontStyles().isItalic());
         assertEquals(styleConf.getStyles().get(0).getParagraphStyles().getInnerAlignment()
-                , WdParagraphAlignment.wdAlignParagraphCenter);
+                , WdParagraphAlignment.wdAlignParagraphJustify);
         assertTrue(styleConf.getStyles().get(1).getFontStyles().isItalic());
         assertNull(styleConf.getStyles().get(1).getParagraphStyles());
     }

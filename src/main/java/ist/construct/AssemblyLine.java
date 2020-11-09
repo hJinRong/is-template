@@ -58,7 +58,6 @@ public class AssemblyLine {
     }
 
     public void start() throws IOException, NoSuchFieldException {
-        int paraCounter = 1;
         //read order
         OrderConf orderConf = constructTConf("order.yaml", OrderConf.class);
         List<String> imports = orderConf.getImports();
