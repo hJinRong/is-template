@@ -1,10 +1,7 @@
 package ist.util;
 
 import com.wps.api.tree.kso.MsoTriState;
-import com.wps.api.tree.wps.InlineShape;
-import com.wps.api.tree.wps.Range;
-import com.wps.api.tree.wps.Style;
-import com.wps.api.tree.wps.WdParagraphAlignment;
+import com.wps.api.tree.wps.*;
 import com4j.Variant;
 
 import java.nio.file.NoSuchFileException;
@@ -56,13 +53,11 @@ public class UpdateHelper {
 
 
     public static InlineShape insertImage(String img, String style) {
-        int lastParagraph = currentActiveDoc().get_Paragraphs().get_Count();
-        Range lastRange = currentActiveDoc().Range(currentActiveDoc().get_Paragraphs().Item(lastParagraph).get_Range().get_End(),
-                currentActiveDoc().get_Paragraphs().Item(lastParagraph).get_Range().get_End());
+        Range lastRange = currentActiveDoc().Range(lastParagraph().get_Range().get_End(),
+                lastParagraph().get_Range().get_End());
         InlineShape shape = lastRange.get_InlineShapes().AddPicture(img,
                 Variant.getMissing(), Variant.getMissing(), Variant.getMissing());
-        int lastInlineShape = currentActiveDoc().get_InlineShapes().get_Count();
-        Range shapeRange = currentActiveDoc().get_InlineShapes().Item(lastInlineShape).get_Range();
+        Range shapeRange = lastInlineShape().get_Range();
         shapeRange.get_ParagraphFormat().put_Alignment(WdParagraphAlignment.wdAlignParagraphCenter);
 
         String[] styarr = Arrays.stream(style.split(",")).map(String::trim).toArray(String[]::new);
@@ -123,5 +118,15 @@ public class UpdateHelper {
 
     public static void decorateWholeRange(Range range, Style decoration) {
         UpdateHelper.addDecoration(range.get_Start(), range.get_End(), decoration);
+    }
+
+    public static Paragraph lastParagraph() {
+        int last = currentActiveDoc().get_Paragraphs().get_Count();
+        return currentActiveDoc().get_Paragraphs().Item(last);
+    }
+
+    public static InlineShape lastInlineShape() {
+        int last = currentActiveDoc().get_InlineShapes().get_Count();
+        return currentActiveDoc().get_InlineShapes().Item(last);
     }
 }
