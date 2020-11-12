@@ -8,6 +8,7 @@ import ist.node.conf.StyleConf;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static ist.util.ConstructTConf.constructTConf;
 import static org.junit.Assert.*;
 
 public class AssemblyLineTest {
@@ -31,20 +32,20 @@ public class AssemblyLineTest {
 
     @Test
     public void constructModuleConfTest() {
-        ModuleConf moduleConf = assemblyLine.constructTConf("adir\\module.yaml", ModuleConf.class);
+        ModuleConf moduleConf = constructTConf(assemblyLine.getProjRoot().resolve("adir\\module.yaml").toString(), ModuleConf.class);
         assertEquals(moduleConf.id, "module-a");
         assertEquals(moduleConf.getStyles().size(), 1);
     }
 
     @Test
     public void constructOrderConfTest() {
-        OrderConf orderConf = assemblyLine.constructTConf("order.yaml", OrderConf.class);
+        OrderConf orderConf = constructTConf(assemblyLine.getProjRoot().resolve("order.yaml").toString(), OrderConf.class);
         assertEquals(orderConf.getImports().size(), 1);
     }
 
     @Test
     public void constructContentConfTest() {
-        ContentConf contentConf = assemblyLine.constructTConf("adir\\content.yaml", ContentConf.class);
+        ContentConf contentConf = constructTConf(assemblyLine.getProjRoot().resolve("adir\\content.yaml").toString(), ContentConf.class);
         assertEquals(contentConf.id, "content-a");
         assertEquals(contentConf.shortContent, "foo, bar, baz");
         assertEquals(contentConf.getStyles().size(), 2);
@@ -53,7 +54,7 @@ public class AssemblyLineTest {
 
     @Test
     public void constructStyleConfTest() {
-        StyleConf styleConf = assemblyLine.constructTConf("adir\\style1.yaml", StyleConf.class);
+        StyleConf styleConf = constructTConf(assemblyLine.getProjRoot().resolve("adir\\style1.yaml").toString(), StyleConf.class);
         assertEquals(styleConf.getStyles().get(0).id, "style1-1");
         assertFalse(styleConf.getStyles().get(0).getFontStyles().isItalic());
         assertEquals(styleConf.getStyles().get(0).getParagraphStyles().getInnerAlignment()
