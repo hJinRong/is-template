@@ -101,7 +101,7 @@ public class AssemblyLine {
                 //update document and add style
                 for (String f : files) {
                     String fc = Files.readString(projRoot.resolve(i).resolve(f));
-                    newParagraph(fc, tmp);
+                    newParagraph(fc, tmp, projRoot.resolve(i));
                 }
             }
         }
