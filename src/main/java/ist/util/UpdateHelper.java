@@ -16,19 +16,18 @@ import static ist.util.WpsApplication.currentActiveDoc;
 public class UpdateHelper {
 
     public static void newLine() {
-        int count = currentActiveDoc().get_Paragraphs().get_Count();
-        currentActiveDoc().get_Paragraphs().Item(count).get_Range().InsertParagraphAfter();
+        lastParagraph().get_Range().InsertParagraphAfter();
+        lastParagraph().get_Format().Reset();
     }
 
     public static Range supplement(String content, Style style) {
-        int count = currentActiveDoc().get_Paragraphs().get_Count();
-        Range currParag = currentActiveDoc().get_Paragraphs().Item(count).get_Range();
-        currParag.InsertAfter(content);
-        currParag.put_Style(style);
-        return currParag;
+        Range current = lastParagraph().get_Range();
+        current.InsertAfter(content);
+        current.put_Style(style);
+        return current;
     }
 
-    public static void newParagraph(String content, Style paragStyle, Path at) throws NoSuchFieldException, NoSuchFileException {
+    public static void newParagraph(String content, Style style, Path at) throws NoSuchFieldException, NoSuchFileException {
         String[] split = content.split("\r\n");
         for (String s : split) {
             if (s.startsWith("![table]")) {
@@ -42,10 +41,10 @@ public class UpdateHelper {
             }
 
             if (s.startsWith("![") && s.endsWith(")")) {
-                String style, href;
+                String imageStyle, href;
                 Matcher matcher1 = Pattern.compile("(?<=!\\[)(\\W|\\w)*(?=])").matcher(s);
                 if (matcher1.find()) {
-                    style = matcher1.group();
+                    imageStyle = matcher1.group();
                 } else {
                     throw new NoSuchFieldException("Invalid style at " + s);
                 }
@@ -55,10 +54,11 @@ public class UpdateHelper {
                 } else {
                     throw new NoSuchFileException("Invalid href at " + s);
                 }
-                insertImage(href, style);
+                insertImage(href, imageStyle);
                 continue;
             }
-            supplement(s, paragStyle);
+
+            supplement(s, style);
             newLine();
         }
     }
@@ -125,8 +125,6 @@ public class UpdateHelper {
     }
 
     public static void insertTable(Path at, Path tablePath) {
-        //重置该段落样式，否则会影响表格布局
-        lastParagraph().get_Format().Reset();
         ist.node.entity.Table table = constructTConf(tablePath.toString(), ist.node.entity.Table.class);
         Table ui = currentActiveDoc().get_Tables().Add(lastParagraph().get_Range(), table.getRows(), table.getColumns(),
                 Variant.getMissing(), Variant.getMissing());
@@ -152,7 +150,7 @@ public class UpdateHelper {
     }
 
     public static void decorateWholeRange(Range range, Style decoration) {
-        UpdateHelper.addDecoration(range.get_Start(), range.get_End(), decoration);
+        addDecoration(range.get_Start(), range.get_End(), decoration);
     }
 
     public static Paragraph lastParagraph() {
