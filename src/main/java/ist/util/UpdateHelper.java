@@ -5,10 +5,12 @@ import com.wps.api.tree.wps.*;
 import com4j.Variant;
 
 import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static ist.util.ConstructTConf.constructTConf;
 import static ist.util.WpsApplication.currentActiveDoc;
 
 public class UpdateHelper {
@@ -26,9 +28,19 @@ public class UpdateHelper {
         return currParag;
     }
 
-    public static void newParagraph(String content, Style paragStyle) throws NoSuchFieldException, NoSuchFileException {
+    public static void newParagraph(String content, Style paragStyle, Path at) throws NoSuchFieldException, NoSuchFileException {
         String[] split = content.split("\r\n");
         for (String s : split) {
+            if (s.startsWith("![table]")) {
+                Matcher matcher = Pattern.compile("(?<=!\\[table]\\()(\\W|\\w)*(?=\\))").matcher(s);
+                if (matcher.find()) {
+                    insertTable(at, at.resolve(matcher.group()));
+                    continue;
+                } else {
+                    throw new NoSuchFieldException("Invalid table at " + s);
+                }
+            }
+
             if (s.startsWith("![") && s.endsWith(")")) {
                 String style, href;
                 Matcher matcher1 = Pattern.compile("(?<=!\\[)(\\W|\\w)*(?=])").matcher(s);
@@ -110,6 +122,29 @@ public class UpdateHelper {
         shapeRange.get_ParagraphFormat().put_Alignment(innerAlignment);
         if (wrap) newLine();
         return shape;
+    }
+
+    public static void insertTable(Path at, Path tablePath) {
+        //重置该段落样式，否则会影响表格布局
+        lastParagraph().get_Format().Reset();
+        ist.node.entity.Table table = constructTConf(tablePath.toString(), ist.node.entity.Table.class);
+        Table ui = currentActiveDoc().get_Tables().Add(lastParagraph().get_Range(), table.getRows(), table.getColumns(),
+                Variant.getMissing(), Variant.getMissing());
+        ui.get_Rows().put_Alignment(table.getInnerAlignment());
+        ui.get_Range().get_Cells().put_VerticalAlignment(table.getInnerCellVerticalAlignment());
+        for (ist.node.entity.Cell cell :
+                table.getCells()) {
+            Range cellRange = ui.Cell(cell.getRow(), cell.getColumn()).get_Range();
+            cellRange.InsertAfter(cell.getContent());
+            ist.node.entity.Font font = cell.getInnerFont(at.toString());
+            cellRange.get_Font().put_Name(font.getFontFamily());
+            cellRange.get_Font().put_Italic(font.isItalic() ? 1 : 0);
+            cellRange.get_Font().put_Bold(font.isBold() ? 1 : 0);
+            cellRange.get_Font().put_Size(font.getSize());
+            cellRange.get_Font().put_Spacing(font.getSpacing());
+            cellRange.get_Font().put_ColorIndex(font.getTextColor());
+        }
+        newLine();
     }
 
     public static void addDecoration(int start, int end, Style decoration) {
