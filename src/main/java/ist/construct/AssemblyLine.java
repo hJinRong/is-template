@@ -36,7 +36,7 @@ public class AssemblyLine {
 
     public void start() throws IOException, NoSuchFieldException {
         //read order
-        OrderConf orderConf = constructTConf("order.yaml", OrderConf.class);
+        OrderConf orderConf = constructTConf(projRoot.resolve("order.yaml").toString(), OrderConf.class);
         List<String> imports = orderConf.getImports();
         for (String i : imports) {
             ModuleConf module = constructTConf(projRoot.resolve(i).resolve("module.yaml").toString(), ModuleConf.class);
