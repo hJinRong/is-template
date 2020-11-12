@@ -1,4 +1,4 @@
-package ist.unit;
+package ist.util;
 
 import org.junit.jupiter.api.Test;
 

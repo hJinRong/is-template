@@ -1,17 +1,19 @@
-package ist.construct;
+package ist.util;
 
 import com.wps.api.tree.wps.WdParagraphAlignment;
+import ist.construct.AssemblyLine;
 import ist.node.conf.ContentConf;
 import ist.node.conf.ModuleConf;
 import ist.node.conf.OrderConf;
 import ist.node.conf.StyleConf;
+import ist.node.entity.Table;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static ist.util.ConstructTConf.constructTConf;
 import static org.junit.Assert.*;
 
-public class AssemblyLineTest {
+public class ConstructTConfTest {
 
     private AssemblyLine assemblyLine;
 
@@ -61,5 +63,11 @@ public class AssemblyLineTest {
                 , WdParagraphAlignment.wdAlignParagraphJustify);
         assertTrue(styleConf.getStyles().get(1).getFontStyles().isItalic());
         assertNull(styleConf.getStyles().get(1).getParagraphStyles());
+    }
+
+    @Test
+    public void constructTableEntityConfTest() {
+        Table table = constructTConf(assemblyLine.getProjRoot().resolve("adir\\table1.yaml").toString(), Table.class);
+        assertEquals(table.getAlignment(), "center");
     }
 }
