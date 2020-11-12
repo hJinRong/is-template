@@ -1,7 +1,5 @@
 package ist.construct;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.wps.api.tree.wps.Style;
 import com.wps.api.tree.wps.WdStyleType;
 import ist.node.conf.ContentConf;
@@ -12,15 +10,14 @@ import ist.node.entity.Font;
 import ist.node.entity.Paragraph;
 import ist.node.entity.StyleItem;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static ist.util.ConstructTConf.constructTConf;
 import static ist.util.UpdateHelper.newParagraph;
 import static ist.util.WpsApplication.currentActiveDoc;
 
@@ -35,26 +32,6 @@ public class AssemblyLine {
 
     public Path getProjRoot() {
         return projRoot;
-    }
-
-    public <T> T constructTConf(String path, Class<T> valueType) {
-        T tConf = null;
-        File confFile = new File(String.valueOf(projRoot.resolve(path)));
-        try {
-            if (!confFile.exists()) {
-                String tip = "The file <" + confFile.getAbsolutePath() + "> does not exist.";
-                throw new NoSuchFileException(tip);
-            }
-        } catch (NoSuchFileException e) {
-            e.printStackTrace();
-        }
-        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        try {
-            tConf = mapper.readValue(confFile, valueType);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return tConf;
     }
 
     public void start() throws IOException, NoSuchFieldException {
