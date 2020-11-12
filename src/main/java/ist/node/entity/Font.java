@@ -8,7 +8,7 @@ public final class Font {
     private boolean italic = false;
     private float size = 10.5f;
     private float spacing = 0f;
-    //FIXME 使用字符串设置文字前景色
+    //FIXME 浣跨敤瀛楃涓茶缃枃瀛楀墠鏅壊
     private WdColorIndex textColor = WdColorIndex.wdAuto;
 
     public String getFontFamily() {
