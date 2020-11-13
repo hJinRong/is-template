@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wps.api.tree.wps.WdCellVerticalAlignment;
+import com.wps.api.tree.wps.WdParagraphAlignment;
 import com.wps.api.tree.wps.WdRowAlignment;
 
 import java.nio.file.Path;
@@ -17,12 +18,15 @@ public class Table {
     private final List<Cell> cells;
     private final int columns;
     private final String alignment;
+    private final String cellAlignment;
     private final String cellVerticalAlignment;
     private final String cellPadding;
     private final float cellSpacing;
     private final String font;
     @JsonIgnore
     private WdRowAlignment innerAlignment;
+    @JsonIgnore
+    private WdParagraphAlignment innerCellAlignment;
     @JsonIgnore
     private WdCellVerticalAlignment innerCellVerticalAlignment;
     @JsonIgnore
@@ -34,6 +38,7 @@ public class Table {
                   @JsonProperty("alignment") String alignment,
                   @JsonProperty("cellPadding") String cellPadding,
                   @JsonProperty("cellSpacing") float cellSpacing,
+                  @JsonProperty("cellAlignment") String cellAlignment,
                   @JsonProperty("cellVerticalAlignment") String cellVerticalAlignment,
                   @JsonProperty("font") String font,
                   @JsonProperty("cells") List<Cell> cells) {
@@ -42,6 +47,7 @@ public class Table {
         this.alignment = alignment;
         this.cellPadding = cellPadding;
         this.cellSpacing = cellSpacing;
+        this.cellAlignment = cellAlignment;
         this.cellVerticalAlignment = cellVerticalAlignment;
         this.cells = cells;
         this.font = font;
@@ -80,6 +86,38 @@ public class Table {
 
     public String getAlignment() {
         return alignment;
+    }
+
+    public WdParagraphAlignment getInnerCellAlignment() {
+        if (alignment == null) {
+            innerCellAlignment = WdParagraphAlignment.wdAlignParagraphCenter;
+        } else {
+            switch (alignment) {
+                case "justify":
+                    innerCellAlignment = WdParagraphAlignment.wdAlignParagraphJustify;
+                    break;
+                case "center":
+                    innerCellAlignment = WdParagraphAlignment.wdAlignParagraphCenter;
+                    break;
+                case "left":
+                    innerCellAlignment = WdParagraphAlignment.wdAlignParagraphLeft;
+                    break;
+                case "right":
+                    innerCellAlignment = WdParagraphAlignment.wdAlignParagraphRight;
+                    break;
+                case "distribute":
+                    innerCellAlignment = WdParagraphAlignment.wdAlignParagraphDistribute;
+                    break;
+                default:
+                    try {
+                        String tip = "This type of cell alignment <" + alignment + "> does not exist.";
+                        throw new NoSuchFieldException(tip);
+                    } catch (NoSuchFieldException e) {
+                        e.printStackTrace();
+                    }
+            }
+        }
+        return innerCellAlignment;
     }
 
     public float[] getCellPadding() {
