@@ -7,6 +7,7 @@ import com.wps.api.tree.wps.WdCellVerticalAlignment;
 import com.wps.api.tree.wps.WdParagraphAlignment;
 
 import java.nio.file.Path;
+import java.util.Arrays;
 
 import static ist.util.ConstructTConf.constructTConf;
 
@@ -15,8 +16,8 @@ public class Cell {
     private final int column;
     private final String content;
     private final String alignment;
-    private final String verticalAlignment;
     private final String cellVerticalAlignment;
+    private final String cellPadding;
     private final String font;
     @JsonIgnore
     private WdParagraphAlignment innerAlignment;
@@ -30,15 +31,15 @@ public class Cell {
                  @JsonProperty("column") int column,
                  @JsonProperty("content") String content,
                  @JsonProperty("alignment") String alignment,
-                 @JsonProperty("verticalAlignment") String verticalAlignment,
                  @JsonProperty("cellVerticalAlignment") String cellVerticalAlignment,
+                 @JsonProperty("cellPadding") String cellPadding,
                  @JsonProperty("font") String font) {
         this.row = row;
         this.column = column;
         this.content = content;
         this.alignment = alignment;
-        this.verticalAlignment = verticalAlignment;
         this.cellVerticalAlignment = cellVerticalAlignment;
+        this.cellPadding = cellPadding;
         this.font = font;
     }
 
@@ -58,48 +59,73 @@ public class Cell {
         return alignment;
     }
 
-    public WdParagraphAlignment getInnerAlignment() {
-        switch (alignment) {
-            case "justify":
-                innerAlignment = WdParagraphAlignment.wdAlignParagraphJustify;
-                break;
-            case "thai":
-                innerAlignment = WdParagraphAlignment.wdAlignParagraphThaiJustify;
-                break;
-            case "hi":
-                innerAlignment = WdParagraphAlignment.wdAlignParagraphJustifyHi;
-                break;
-            case "low":
-                innerAlignment = WdParagraphAlignment.wdAlignParagraphJustifyLow;
-                break;
-            case "med":
-                innerAlignment = WdParagraphAlignment.wdAlignParagraphJustifyMed;
-                break;
-            case "center":
-                innerAlignment = WdParagraphAlignment.wdAlignParagraphCenter;
-                break;
-            case "left":
-                innerAlignment = WdParagraphAlignment.wdAlignParagraphLeft;
-                break;
-            case "right":
-                innerAlignment = WdParagraphAlignment.wdAlignParagraphRight;
-                break;
-            case "distribute":
-                innerAlignment = WdParagraphAlignment.wdAlignParagraphDistribute;
-                break;
-            default:
-                try {
-                    String tip = "This type of table alignment <" + alignment + "> does not exist.";
-                    throw new NoSuchFieldException(tip);
-                } catch (NoSuchFieldException e) {
-                    e.printStackTrace();
-                }
+    public float[] getCellPadding() {
+        if (cellPadding == null) {
+            return new float[]{0, 0, 0, 0};
+        } else {
+            float[] rt = new float[4];
+            Float[] tmp = Arrays.stream(cellPadding.split(" ")).map(Float::parseFloat).toArray(Float[]::new);
+            switch (tmp.length) {
+                case 1:
+                    Arrays.fill(rt, tmp[0]);
+                    break;
+                case 2:
+                    rt[0] = tmp[0];
+                    rt[1] = tmp[1];
+                    rt[2] = rt[0];
+                    rt[3] = rt[1];
+                case 3:
+                    rt[0] = tmp[0];
+                    rt[1] = tmp[1];
+                    rt[2] = tmp[2];
+                    rt[3] = rt[1];
+                    break;
+                case 4:
+                    rt[0] = tmp[0];
+                    rt[1] = tmp[1];
+                    rt[2] = tmp[2];
+                    rt[3] = tmp[3];
+                default:
+                    try {
+                        throw new NoSuchFieldException("The number of parameter is too much.");
+                    } catch (NoSuchFieldException e) {
+                        e.printStackTrace();
+                    }
+            }
+            return rt;
         }
-        return innerAlignment;
     }
 
-    public String getVerticalAlignment() {
-        return verticalAlignment;
+    public WdParagraphAlignment getInnerAlignment() {
+        if (alignment == null) {
+            innerAlignment = WdParagraphAlignment.wdAlignParagraphCenter;
+        } else {
+            switch (alignment) {
+                case "justify":
+                    innerAlignment = WdParagraphAlignment.wdAlignParagraphJustify;
+                    break;
+                case "center":
+                    innerAlignment = WdParagraphAlignment.wdAlignParagraphCenter;
+                    break;
+                case "left":
+                    innerAlignment = WdParagraphAlignment.wdAlignParagraphLeft;
+                    break;
+                case "right":
+                    innerAlignment = WdParagraphAlignment.wdAlignParagraphRight;
+                    break;
+                case "distribute":
+                    innerAlignment = WdParagraphAlignment.wdAlignParagraphDistribute;
+                    break;
+                default:
+                    try {
+                        String tip = "This type of cell alignment <" + alignment + "> does not exist.";
+                        throw new NoSuchFieldException(tip);
+                    } catch (NoSuchFieldException e) {
+                        e.printStackTrace();
+                    }
+            }
+        }
+        return innerAlignment;
     }
 
     public WdCellVerticalAlignment getInnerCellVerticalAlignment() {

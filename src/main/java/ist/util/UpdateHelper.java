@@ -137,8 +137,10 @@ public class UpdateHelper {
         ui.get_Range().get_Cells().put_VerticalAlignment(table.getInnerCellVerticalAlignment());
         for (ist.node.entity.Cell cell :
                 table.getCells()) {
-            Range cellRange = ui.Cell(cell.getRow(), cell.getColumn()).get_Range();
+            Cell cur = ui.Cell(cell.getRow(), cell.getColumn());
+            Range cellRange = cur.get_Range();
             cellRange.InsertAfter(cell.getContent());
+            cellRange.get_ParagraphFormat().put_Alignment(cell.getInnerAlignment());
             ist.node.entity.Font font = cell.getInnerFont(at.toString());
             cellRange.get_Font().put_Name(font.getFontFamily());
             cellRange.get_Font().put_Italic(font.isItalic() ? 1 : 0);
@@ -146,6 +148,10 @@ public class UpdateHelper {
             cellRange.get_Font().put_Size(font.getSize());
             cellRange.get_Font().put_Spacing(font.getSpacing());
             cellRange.get_Font().put_ColorIndex(font.getTextColor());
+            cur.put_TopPadding(cell.getCellPadding()[0]);
+            cur.put_RightPadding(cell.getCellPadding()[1]);
+            cur.put_BottomPadding(cell.getCellPadding()[2]);
+            cur.put_BottomPadding(cell.getCellPadding()[3]);
         }
         newLine();
     }
