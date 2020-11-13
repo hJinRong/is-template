@@ -129,6 +129,11 @@ public class UpdateHelper {
         Table ui = currentActiveDoc().get_Tables().Add(lastParagraph().get_Range(), table.getRows(), table.getColumns(),
                 Variant.getMissing(), Variant.getMissing());
         ui.get_Rows().put_Alignment(table.getInnerAlignment());
+        ui.put_TopPadding(table.getCellPadding()[0]);
+        ui.put_RightPadding(table.getCellPadding()[1]);
+        ui.put_BottomPadding(table.getCellPadding()[2]);
+        ui.put_BottomPadding(table.getCellPadding()[3]);
+        ui.put_Spacing(table.getCellSpacing());
         ui.get_Range().get_Cells().put_VerticalAlignment(table.getInnerCellVerticalAlignment());
         for (ist.node.entity.Cell cell :
                 table.getCells()) {

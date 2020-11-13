@@ -7,6 +7,7 @@ import com.wps.api.tree.wps.WdCellVerticalAlignment;
 import com.wps.api.tree.wps.WdRowAlignment;
 
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 
 import static ist.util.ConstructTConf.constructTConf;
@@ -18,7 +19,7 @@ public class Table {
     private final String alignment;
     private final String cellVerticalAlignment;
     private final String cellPadding;
-    private final String cellSpacing;
+    private final float cellSpacing;
     private final String font;
     @JsonIgnore
     private WdRowAlignment innerAlignment;
@@ -32,7 +33,7 @@ public class Table {
                   @JsonProperty("columns") int columns,
                   @JsonProperty("alignment") String alignment,
                   @JsonProperty("cellPadding") String cellPadding,
-                  @JsonProperty("cellSpacing") String cellSpacing,
+                  @JsonProperty("cellSpacing") float cellSpacing,
                   @JsonProperty("cellVerticalAlignment") String cellVerticalAlignment,
                   @JsonProperty("font") String font,
                   @JsonProperty("cells") List<Cell> cells) {
@@ -81,11 +82,44 @@ public class Table {
         return alignment;
     }
 
-    public String getCellPadding() {
-        return cellPadding;
+    public float[] getCellPadding() {
+        if (cellPadding == null) {
+            return new float[]{0, 0, 0, 0};
+        } else {
+            float[] rt = new float[4];
+            Float[] tmp = Arrays.stream(cellPadding.split(" ")).map(Float::parseFloat).toArray(Float[]::new);
+            switch (tmp.length) {
+                case 1:
+                    Arrays.fill(rt, tmp[0]);
+                    break;
+                case 2:
+                    rt[0] = tmp[0];
+                    rt[1] = tmp[1];
+                    rt[2] = rt[0];
+                    rt[3] = rt[1];
+                case 3:
+                    rt[0] = tmp[0];
+                    rt[1] = tmp[1];
+                    rt[2] = tmp[2];
+                    rt[3] = rt[1];
+                    break;
+                case 4:
+                    rt[0] = tmp[0];
+                    rt[1] = tmp[1];
+                    rt[2] = tmp[2];
+                    rt[3] = tmp[3];
+                default:
+                    try {
+                        throw new NoSuchFieldException("The number of parameter is too much.");
+                    } catch (NoSuchFieldException e) {
+                        e.printStackTrace();
+                    }
+            }
+            return rt;
+        }
     }
 
-    public String getCellSpacing() {
+    public float getCellSpacing() {
         return cellSpacing;
     }
 
