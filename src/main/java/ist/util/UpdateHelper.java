@@ -126,6 +126,10 @@ public class UpdateHelper {
 
     public static void insertTable(Path at, Path tablePath) {
         ist.node.entity.Table table = constructTConf(tablePath.toString(), ist.node.entity.Table.class);
+        if (table.getLineUnitBefore() >= 1) {
+            lastParagraph().get_Range().get_ParagraphFormat().put_LineUnitAfter(table.getLineUnitBefore() - 1);
+            newLine();
+        }
         Table ui = currentActiveDoc().get_Tables().Add(lastParagraph().get_Range(), table.getRows(), table.getColumns(),
                 Variant.getMissing(), Variant.getMissing());
         ui.get_Rows().put_Alignment(table.getInnerAlignment());
@@ -154,7 +158,10 @@ public class UpdateHelper {
             cur.put_BottomPadding(cell.getCellPadding()[2]);
             cur.put_BottomPadding(cell.getCellPadding()[3]);
         }
-        newLine();
+        if (table.getLineUnitAfter() >= 1) {
+            lastParagraph().get_Range().get_ParagraphFormat().put_LineUnitAfter(table.getLineUnitAfter() - 1);
+            newLine();
+        }
     }
 
     public static void addDecoration(int start, int end, Style decoration) {

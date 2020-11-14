@@ -17,6 +17,8 @@ public class Table {
     private final int rows;
     private final List<Cell> cells;
     private final int columns;
+    private final float lineUnitBefore;
+    private final float lineUnitAfter;
     private final String alignment;
     private final String cellAlignment;
     private final String cellVerticalAlignment;
@@ -35,6 +37,8 @@ public class Table {
     @JsonCreator
     private Table(@JsonProperty("rows") int rows,
                   @JsonProperty("columns") int columns,
+                  @JsonProperty("lineUnitBefore") float lineUnitBefore,
+                  @JsonProperty("lineUnitAfter") float lineUnitAfter,
                   @JsonProperty("alignment") String alignment,
                   @JsonProperty("cellPadding") String cellPadding,
                   @JsonProperty("cellSpacing") float cellSpacing,
@@ -44,6 +48,8 @@ public class Table {
                   @JsonProperty("cells") List<Cell> cells) {
         this.rows = rows;
         this.columns = columns;
+        this.lineUnitBefore = lineUnitBefore;
+        this.lineUnitAfter = lineUnitAfter;
         this.alignment = alignment;
         this.cellPadding = cellPadding;
         this.cellSpacing = cellSpacing;
@@ -59,6 +65,14 @@ public class Table {
 
     public int getColumns() {
         return columns;
+    }
+
+    public float getLineUnitBefore() {
+        return lineUnitBefore;
+    }
+
+    public float getLineUnitAfter() {
+        return lineUnitAfter;
     }
 
     public WdRowAlignment getInnerAlignment() {
