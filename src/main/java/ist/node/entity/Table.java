@@ -89,10 +89,10 @@ public class Table {
     }
 
     public WdParagraphAlignment getInnerCellAlignment() {
-        if (alignment == null) {
+        if (cellAlignment == null) {
             innerCellAlignment = WdParagraphAlignment.wdAlignParagraphCenter;
         } else {
-            switch (alignment) {
+            switch (cellAlignment) {
                 case "justify":
                     innerCellAlignment = WdParagraphAlignment.wdAlignParagraphJustify;
                     break;
