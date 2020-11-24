@@ -4,6 +4,7 @@ import com.wps.api.tree.kso.MsoTriState;
 import com.wps.api.tree.wps.*;
 import com4j.Variant;
 
+import java.io.File;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -54,7 +55,7 @@ public class UpdateHelper {
                 } else {
                     throw new NoSuchFileException("Invalid href at " + s);
                 }
-                insertImage(href, imageStyle);
+                insertImage(String.valueOf(at.resolve(href).toAbsolutePath()), imageStyle);
                 continue;
             }
 
@@ -67,6 +68,13 @@ public class UpdateHelper {
     public static InlineShape insertImage(String img, String style) {
         Range lastRange = currentActiveDoc().Range(lastParagraph().get_Range().get_End(),
                 lastParagraph().get_Range().get_End());
+        boolean imgExisted = new File(img).exists();
+        if (!imgExisted)
+            try {
+                throw new NoSuchFileException("Image <" + img + "> does not exist.");
+            } catch (NoSuchFileException e) {
+                e.printStackTrace();
+            }
         InlineShape shape = lastRange.get_InlineShapes().AddPicture(img,
                 Variant.getMissing(), Variant.getMissing(), Variant.getMissing());
         Range shapeRange = lastInlineShape().get_Range();
