@@ -1,0 +1,8 @@
+id: content-a
+shortContent: foo, bar, baz
+listTitle: title
+files:
+  - bar.txt
+styles:
+  - style1-1
+  - style1-2

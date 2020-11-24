@@ -1,0 +1,13 @@
+styles:
+  - id: style1-1
+    fontStyles:
+      fontFamily: Arial
+      bold: true
+    paragraphStyles:
+      alignment: justify
+      textIntent: 21f
+
+  - id: style1-2
+    fontStyles:
+      italic: true
+      size: 13f

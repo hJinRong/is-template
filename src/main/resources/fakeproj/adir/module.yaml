@@ -1,0 +1,5 @@
+id: module-a
+styles:
+  - style1.yaml
+contents:
+  - content.yaml
