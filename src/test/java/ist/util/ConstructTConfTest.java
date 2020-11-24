@@ -20,16 +20,7 @@ public class ConstructTConfTest {
     @BeforeEach
     public void init() {
         assemblyLine = new AssemblyLine();
-        assemblyLine.setProjRoot("C:\\Users\\rong\\Desktop\\adir");
-    }
-
-
-    @Test
-    public void setProjRootTest() {
-        assertEquals(assemblyLine.setProjRoot("C:\\Users\\rong\\Desktop\\adir").toString()
-                , "C:\\Users\\rong\\Desktop\\adir");
-        assertEquals(assemblyLine.setProjRoot("C:\\Users\\rong\\Desktop\\adir\\").toString()
-                , "C:\\Users\\rong\\Desktop\\adir");
+        assemblyLine.setProjRoot("src\\main\\resources\\fakeproj");
     }
 
     @Test
