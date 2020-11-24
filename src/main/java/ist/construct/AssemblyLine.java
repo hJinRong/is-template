@@ -10,8 +10,10 @@ import ist.node.entity.Font;
 import ist.node.entity.Paragraph;
 import ist.node.entity.StyleItem;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +28,12 @@ public class AssemblyLine {
     private Path projRoot;
 
     public Path setProjRoot(String root) {
+        boolean exist = new File(root).exists();
+        if (!exist) try {
+            throw new NoSuchFileException("The directory <" + root + "> of the project does not exist.");
+        } catch (NoSuchFileException e) {
+            e.printStackTrace();
+        }
         projRoot = Path.of(root);
         return projRoot;
     }
