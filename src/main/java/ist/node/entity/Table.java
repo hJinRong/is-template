@@ -22,7 +22,7 @@ public class Table {
     private final String alignment;
     private final String cellAlignment;
     private final String cellVerticalAlignment;
-    private final String cellPadding;
+    private final float[] cellPadding;
     private final float cellSpacing;
     private final String font;
     @JsonIgnore
@@ -40,7 +40,7 @@ public class Table {
                   @JsonProperty("lineUnitBefore") float lineUnitBefore,
                   @JsonProperty("lineUnitAfter") float lineUnitAfter,
                   @JsonProperty("alignment") String alignment,
-                  @JsonProperty("cellPadding") String cellPadding,
+                  @JsonProperty("cellPadding") float[] cellPadding,
                   @JsonProperty("cellSpacing") float cellSpacing,
                   @JsonProperty("cellAlignment") String cellAlignment,
                   @JsonProperty("cellVerticalAlignment") String cellVerticalAlignment,
@@ -139,27 +139,28 @@ public class Table {
             return new float[]{0, 0, 0, 0};
         } else {
             float[] rt = new float[4];
-            Float[] tmp = Arrays.stream(cellPadding.split(" ")).map(Float::parseFloat).toArray(Float[]::new);
-            switch (tmp.length) {
+            switch (cellPadding.length) {
                 case 1:
-                    Arrays.fill(rt, tmp[0]);
+                    Arrays.fill(rt, cellPadding[0]);
                     break;
                 case 2:
-                    rt[0] = tmp[0];
-                    rt[1] = tmp[1];
+                    rt[0] = cellPadding[0];
+                    rt[1] = cellPadding[1];
                     rt[2] = rt[0];
                     rt[3] = rt[1];
+                    break;
                 case 3:
-                    rt[0] = tmp[0];
-                    rt[1] = tmp[1];
-                    rt[2] = tmp[2];
+                    rt[0] = cellPadding[0];
+                    rt[1] = cellPadding[1];
+                    rt[2] = cellPadding[2];
                     rt[3] = rt[1];
                     break;
                 case 4:
-                    rt[0] = tmp[0];
-                    rt[1] = tmp[1];
-                    rt[2] = tmp[2];
-                    rt[3] = tmp[3];
+                    rt[0] = cellPadding[0];
+                    rt[1] = cellPadding[1];
+                    rt[2] = cellPadding[2];
+                    rt[3] = cellPadding[3];
+                    break;
                 default:
                     try {
                         throw new NoSuchFieldException("The number of parameter is too much.");

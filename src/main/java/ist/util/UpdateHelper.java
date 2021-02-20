@@ -142,10 +142,11 @@ public class UpdateHelper {
                 Variant.getMissing(), Variant.getMissing());
         ui.get_Rows().put_Alignment(table.getInnerAlignment());
         ui.get_Range().get_ParagraphFormat().put_Alignment(table.getInnerCellAlignment());
-        ui.put_TopPadding(table.getCellPadding()[0]);
-        ui.put_RightPadding(table.getCellPadding()[1]);
-        ui.put_BottomPadding(table.getCellPadding()[2]);
-        ui.put_BottomPadding(table.getCellPadding()[3]);
+        float[] cellPadding = table.getCellPadding();
+        ui.put_TopPadding(cellPadding[0]);
+        ui.put_RightPadding(cellPadding[1]);
+        ui.put_BottomPadding(cellPadding[2]);
+        ui.put_BottomPadding(cellPadding[3]);
         ui.put_Spacing(table.getCellSpacing());
         ui.get_Range().get_Cells().put_VerticalAlignment(table.getInnerCellVerticalAlignment());
         for (ist.node.entity.Cell cell :
@@ -161,10 +162,11 @@ public class UpdateHelper {
             cellRange.get_Font().put_Size(font.getSize());
             cellRange.get_Font().put_Spacing(font.getSpacing());
             cellRange.get_Font().put_ColorIndex(font.getTextColor());
-            cur.put_TopPadding(cell.getCellPadding()[0]);
-            cur.put_RightPadding(cell.getCellPadding()[1]);
-            cur.put_BottomPadding(cell.getCellPadding()[2]);
-            cur.put_BottomPadding(cell.getCellPadding()[3]);
+            float[] cellItemPadding = cell.getCellPadding();
+            cur.put_TopPadding(cellItemPadding[0]);
+            cur.put_RightPadding(cellItemPadding[1]);
+            cur.put_BottomPadding(cellItemPadding[2]);
+            cur.put_BottomPadding(cellItemPadding[3]);
         }
         if (table.getLineUnitAfter() >= 1) {
             lastParagraph().get_Range().get_ParagraphFormat().put_LineUnitAfter(table.getLineUnitAfter() - 1);
