@@ -28,6 +28,10 @@ public class UpdateHelper {
         return current;
     }
 
+    public static void insertBreak(WdBreakType wdBreakType) {
+        lastParagraph().get_Range().InsertBreak(wdBreakType);
+    }
+
     public static void newParagraph(String content, Style style, Path at) throws NoSuchFieldException, NoSuchFileException {
         String[] split = content.split("\r\n");
         for (String s : split) {
