@@ -40,7 +40,6 @@ public class ConstructTConfTest {
     public void constructContentConfTest() {
         ContentConf contentConf = constructTConf(assemblyLine.getProjRoot().resolve("adir\\content.yaml").toString(), ContentConf.class);
         assertEquals(contentConf.id, "content-a");
-        assertEquals(contentConf.shortContent, "foo, bar, baz");
         assertEquals(contentConf.getStyles().size(), 2);
         assertEquals(contentConf.getFiles().size(), 1);
     }

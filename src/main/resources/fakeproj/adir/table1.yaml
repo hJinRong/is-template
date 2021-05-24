@@ -1,13 +1,28 @@
 rows: 3
-columns: 5
+columns: 4
 alignment: center
-lineUnitBefore: 0
-lineUnitAfter: 2
-# cellPadding: 10 10 10 10
+lineUnitBefore: 3
+lineUnitAfter: 3
+cellPadding:
+  - 10
+  - 10
+  - 10
+  - 10
 cellVerticalAlignment: center
 cells:
   - row: 1
     column: 1
-    content: Your Phone
+    content: 姓名
     font: font-hei.yaml
-    alignment: distribute
+  - row: 1
+    column: 2
+    content: 评分
+    font: font-hei.yaml
+  - row: 1
+    column: 3
+    content: 时间
+    font: font-hei.yaml
+  - row: 1
+    column: 4
+    content: 备注
+    font: font-hei.yaml
