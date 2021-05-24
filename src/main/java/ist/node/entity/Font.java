@@ -8,7 +8,6 @@ public final class Font {
     private boolean italic = false;
     private float size = 10.5f;
     private float spacing = 0f;
-    //FIXME 使用字符串设置文字前景色
     private WdColorIndex textColor = WdColorIndex.wdAuto;
 
     public String getFontFamily() {
@@ -55,7 +54,21 @@ public final class Font {
         return textColor;
     }
 
-    public void setTextColor(WdColorIndex textColor) {
-        this.textColor = textColor;
+    public void setTextColor(String color) {
+        switch (color) {
+            case "red":
+                textColor = WdColorIndex.wdRed;
+                break;
+            case "blue":
+                textColor = WdColorIndex.wdBlue;
+                break;
+            case "pink":
+                textColor = WdColorIndex.wdPink;
+                break;
+        }
+    }
+
+    public void setTextColor(WdColorIndex wdColorIndex) {
+        textColor = wdColorIndex;
     }
 }

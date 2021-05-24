@@ -54,10 +54,6 @@ public final class Paragraph {
         }
     }
 
-    public void setInnerAlignment(WdParagraphAlignment innerAlignment) {
-        this.innerAlignment = innerAlignment;
-    }
-
     public String getAlignment() {
         return alignment;
     }

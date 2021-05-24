@@ -3,7 +3,6 @@ package ist.node.entity;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.wps.api.tree.wps.WdCellVerticalAlignment;
 import com.wps.api.tree.wps.WdParagraphAlignment;
 
 import java.nio.file.Path;
@@ -16,13 +15,10 @@ public class Cell {
     private final int column;
     private final String content;
     private final String alignment;
-    private final String cellVerticalAlignment;
     private final float[] cellPadding;
     private final String font;
     @JsonIgnore
     private WdParagraphAlignment innerAlignment;
-    @JsonIgnore
-    private WdCellVerticalAlignment innerCellVerticalAlignment;
     @JsonIgnore
     private Font innerFont;
 
@@ -31,14 +27,12 @@ public class Cell {
                  @JsonProperty("column") int column,
                  @JsonProperty("content") String content,
                  @JsonProperty("alignment") String alignment,
-                 @JsonProperty("cellVerticalAlignment") String cellVerticalAlignment,
                  @JsonProperty("cellPadding") float[] cellPadding,
                  @JsonProperty("font") String font) {
         this.row = row;
         this.column = column;
         this.content = content;
         this.alignment = alignment;
-        this.cellVerticalAlignment = cellVerticalAlignment;
         this.cellPadding = cellPadding;
         this.font = font;
     }
@@ -53,10 +47,6 @@ public class Cell {
 
     public String getContent() {
         return content;
-    }
-
-    public String getAlignment() {
-        return alignment;
     }
 
     public float[] getCellPadding() {
@@ -127,31 +117,6 @@ public class Cell {
             }
         }
         return innerAlignment;
-    }
-
-    public WdCellVerticalAlignment getInnerCellVerticalAlignment() {
-        switch (cellVerticalAlignment) {
-            case "Top":
-                innerCellVerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalTop;
-                break;
-            case "center":
-                innerCellVerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter;
-                break;
-            case "bottom":
-                innerCellVerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalBottom;
-                break;
-            default:
-                try {
-                    throw new NoSuchFieldException("This type of cell vertical alignment <" + cellVerticalAlignment + "> does not exists");
-                } catch (NoSuchFieldException e) {
-                    e.printStackTrace();
-                }
-        }
-        return innerCellVerticalAlignment;
-    }
-
-    public String getFont() {
-        return font;
     }
 
     public Font getInnerFont(String at) {
