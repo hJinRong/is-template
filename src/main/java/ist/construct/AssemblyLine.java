@@ -77,6 +77,7 @@ public class AssemblyLine {
                 tmp.get_Font().put_Italic(mergedStyle.getFontStyles().isItalic() ? 1 : 0);
                 tmp.get_Font().put_Size(mergedStyle.getFontStyles().getSize());
                 tmp.get_Font().put_Spacing(mergedStyle.getFontStyles().getSpacing());
+                tmp.get_Font().put_ColorIndex(mergedStyle.getFontStyles().getTextColor());
                 tmp.get_ParagraphFormat().put_Alignment(mergedStyle.getParagraphStyles().getInnerAlignment());
                 tmp.get_ParagraphFormat().put_FirstLineIndent(mergedStyle.getParagraphStyles().getTextIntent());
                 tmp.get_ParagraphFormat().put_LineSpacing(mergedStyle.getParagraphStyles().getLineSpacing());
