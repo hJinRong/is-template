@@ -5,9 +5,9 @@ styles:
       bold: true
     paragraphStyles:
       alignment: justify
-      textIntent: 21f
+      textIntent: 21
 
   - id: style1-2
     fontStyles:
       italic: true
-      size: 13f
+      size: 13
