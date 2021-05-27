@@ -178,7 +178,7 @@ public class Table {
 
     public WdCellVerticalAlignment getInnerCellVerticalAlignment() {
         switch (cellVerticalAlignment) {
-            case "Top":
+            case "top":
                 innerCellVerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalTop;
                 break;
             case "center":
