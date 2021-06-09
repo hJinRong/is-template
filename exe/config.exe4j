@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<exe4j version="8.0" transformSequenceNumber="3">
+  <directoryPresets config="C:/Users/rong/workstation/is-template/build/libs" />
+  <application name="is-template" distributionSourceDir="C:/Users/rong/workstation/is-template/exe" />
+  <executable name="is-template" wrapperType="embed" executableDir="./exe" redirectStderr="false" executableMode="console" />
+  <java mainClass="ist.Main" minVersion="1.8.0" maxVersion="11">
+    <classPath>
+      <archive location="C:/Users/rong/workstation/is-template/build/libs/is-template-1.0.jar" failOnError="false" />
+    </classPath>
+  </java>
+</exe4j>

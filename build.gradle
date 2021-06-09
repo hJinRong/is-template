@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id "org.graalvm.plugin.native-image" version "0.1.0-alpha2"
+    id "org.mikeneck.graalvm-native-image" version "1.3.0"
 }
 
 group 'org.ist'
@@ -7,6 +9,35 @@ version '1.0'
 
 repositories {
     mavenCentral()
+}
+
+nativeImage {
+    graalVmHome = System.getProperty('JAVA_HOME')
+    mainClass = 'ist.Main'
+    executableName = 'ist'
+}
+generateNativeImageConfig {
+    enabled = false
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "ist.Main"
+    }
+}
+
+task uberJar(type: Jar) {
+
+    manifest {
+        attributes "Main-Class": "ist.Main"
+    }
+
+    from sourceSets.main.output
+
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
 }
 
 dependencies {
